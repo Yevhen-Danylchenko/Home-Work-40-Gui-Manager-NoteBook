@@ -236,6 +236,21 @@ private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System
 }
 private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 	int priority = static_cast<int>(numericUpDown1->Value);
+	if (String::IsNullOrWhiteSpace(textBox1->Text)) {
+		MessageBox::Show("Назва нотатки не може бути порожньою.", "Помилка", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+		return;
+	}
+
+	System::String^ noteTitle = textBox1->Text->Trim();
+	for each (System::Object ^ item in checkedListBox1->Items) {
+		System::String^ existingNote = item->ToString();
+		array<System::String^>^ parts = existingNote->Split('|');
+		if (parts->Length > 0 && parts[0]->Trim()->Equals(noteTitle)) {
+			MessageBox::Show("Нотатка з такою назвою вже існує.", "Увага", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			return;
+		}
+	}
+
 	if (priority < 1 || priority > 5) {
 		MessageBox::Show("Пріорітет має бути в межах від 1 до 5.", "Увага", MessageBoxButtons::OK, MessageBoxIcon::Information);
 	}
