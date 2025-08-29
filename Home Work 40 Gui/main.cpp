@@ -8,5 +8,6 @@ using namespace HomeWork40Gui;
 
 void main()
 {
+	
 	Application::Run(gcnew MyInterface());
 }
